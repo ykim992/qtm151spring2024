@@ -9,10 +9,10 @@ Add a comment with your Emory ID below
 (just add your name as an SQL comment, <br>
 do not use print())
 -- SQLBook: Code
--- Active: 1710903290079@@127.0.0.1@5432@postgres
--- Write your own code
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
 
-# Instructor Copy
+# Hazel Kim
+# 2582947
 
 -- SQLBook: Markup
 <font size = "5">
@@ -27,7 +27,7 @@ You need to run "Execute" on each row, line-by-line. This is <br>
 different from Python, which runs the entire chunk.
 
 -- SQLBook: Code
--- Active: 1710903290079@@127.0.0.1@5432@postgres
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
 
 DROP TABLE IF EXISTS homework_data;
 CREATE TABLE homework_data(driver_id int,
@@ -74,9 +74,12 @@ Hints:
 - In SQL you only need a single equality "="
 - In SQL use single quotes for logical conditions with strings '...'
 -- SQLBook: Code
--- Active: 1710903290079@@127.0.0.1@5432@postgres@public
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
 -- Write your own code
 
+SELECT * FROM homework_data
+WHERE nationality = 'British'
+ORDER BY driver_name ASC;
 
 
 -- SQLBook: Markup
@@ -94,12 +97,13 @@ alies, e.g. ``` ... AS ... ```
 
 
 -- SQLBook: Code
--- Active: 1710903290079@@127.0.0.1@5432@postgres@public
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
 -- Write your own code
 
-
-
-
+SELECT COUNT(DISTINCT nationality) AS unique_count,
+COUNT(nationality) AS Total_number_rows
+FROM homework_data;
+ 
 -- SQLBook: Markup
 <font size = "5">
 
@@ -113,10 +117,14 @@ alies, e.g. ``` ... AS ... ```
 HINT: See the end of lectures 16 for details <br>
 
 -- SQLBook: Code
--- Active: 1710903290079@@127.0.0.1@5432@postgres@public
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
 -- Write your own code
 
-
+SELECT driver_id,
+        AVG(lap_times) AS mean_laptimes
+FROM homework_data
+GROUP BY driver_id
+ORDER BY mean_laptimes;
 
 
 -- SQLBook: Markup
@@ -135,10 +143,14 @@ HINT: Use ```HAVING SUM(lap_times)``` rather than an alias <br>
 for the code to work correctly.
 
 -- SQLBook: Code
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
 
 # Write your own code
 
-
+SELECT SUM(lap_times) AS sum_laptimes
+FROM homework_data
+GROUP BY nationality
+HAVING SUM(lap_times) > 150;
 
 
 -- SQLBook: Markup
@@ -162,8 +174,19 @@ HINT: See the lecture 16 for details <br>
 HINT: To insert a string value, use 'single quotations'
 
 -- SQLBook: Code
--- Write your own code
+-- Active: 1711506493670@@127.0.0.1@5432@postgres@public
+
+DROP TABLE IF EXISTS lap_times;
+CREATE TABLE lap_times("raceId" int,
+    "driverId" int,
+    lap int,
+    position int,
+    time varchar(255),
+    milliseconds int);
 
 
-
+INSERT INTO lap_times  VALUES (1, 234995, 3, 51, '10 seconds',72);
+INSERT INTO lap_times  VALUES (2, 435595, 2, 53, '11 seconds',74);
+INSERT INTO lap_times  VALUES (3, 913845, 5, 50, '11 seconds',71);
+INSERT INTO lap_times  VALUES (4, 282954, 7, 59, '10 seconds',69);
 
